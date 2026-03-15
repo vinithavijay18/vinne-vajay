@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Proposal 💖</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffffee, #fbfffc);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            transition: background 2s ease; /* Smooth background change */
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #d63384;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(214, 51, 132, 0.2);
+        }
+
+        #nameInput {
+            margin: 15px;
+        }
+
+        input {
+            padding: 12px;
+            border: 2px solid #f8b4c4;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            width: 220px;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+            background: rgba(255,255,255,0.9);
+        }
+
+        input:focus {
+            border-color: #d63384;
+            box-shadow: 0 0 15px rgba(214, 51, 132, 0.3);
+        }
+
+        .btn-group {
+            margin-top: 20px;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        /* GEMINI MAGIC 1: The Heartbeat Pulse */
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 5px rgba(255, 77, 129, 0.5); transform: scale(1); }
+            50% { box-shadow: 0 0 25px rgba(255, 77, 129, 0.8); transform: scale(1.08); }
+            100% { box-shadow: 0 0 5px rgba(255, 77, 129, 0.5); transform: scale(1); }
+        }
+
+        .yes {
+            background-color: #ff4d81;
+            color: white;
+            animation: pulseGlow 2s infinite; /* Button breathes automatically */
+        }
+
+        .no {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .no:hover {
+            background-color: #212529;
+            transform: scale(0.95); /* Shrinks slightly when hovered */
+        }
+
+        #message {
+            font-size: 1.5rem;
+            margin-top: 25px;
+            color: #212529;
+            font-weight: bold;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 1s ease; /* Smooth fade in for text */
+        }
+
+        #container {
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px); /* Frosted glass look */
+        }
+
+        #hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .emoji {
+            position: absolute;
+            bottom: -50px;
+            font-size: 2.5rem;
+            animation: floatMagic 4s ease-in-out infinite;
+        }
+
+        /* GEMINI MAGIC 2: Swirling, Rotating Physics */
+        @keyframes floatMagic {
+            0% {
+                transform: translate(0, 0) scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 1;
+            }
+            50% {
+                /* Uses a custom variable to drift left or right */
+                transform: translate(calc(var(--drift) * 100px), -50vh) scale(1.2) rotate(180deg);
+            }
+            100% {
+                transform: translate(calc(var(--drift) * 200px), -110vh) scale(1.5) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="hearts"></div>
+
+    <div id="container">
+        <h1>Will You Be Mine Forever? 💖</h1>
+        
+        <div id="nameInput">
+            <input type="text" id="gName" placeholder="Enter Your Name">
+        </div>
+
+        <div class="btn-group">
+            <button class="yes" onclick="sayYes()">Yes</button>
+            <button class="no" onclick="sayNo()">No</button>
+        </div>
+
+        <div id="message"></div>
+    </div>
+
+    <script>
+        function createFloatingElement(char, parent) {
+            const el = document.createElement('div');
+            el.classList.add('emoji');
+            el.innerHTML = char;
+            
+            // Random start position across the screen
+            el.style.left = Math.floor(Math.random() * window.innerWidth) + 'px';
+            
+            // GEMINI MAGIC 3: Random physics variables
+            el.style.animationDuration = (Math.random() * 2 + 3) + 's'; // Random speed
+            el.style.setProperty('--drift', Math.random() * 2 - 1); // Random left/right drift
+            
+            parent.appendChild(el);
+
+            setTimeout(() => {
+                parent.removeChild(el);
+            }, 5000);
+        }
+
+        function triggerEmojis(emojiArray) {
+            const heartsContainer = document.getElementById('hearts');
+            heartsContainer.innerHTML = ''; // clear previous
+            
+            // Spawn 50 emojis rapidly
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    let char = emojiArray[Math.floor(Math.random() * emojiArray.length)];
+                    createFloatingElement(char, heartsContainer);
+                }, i * 80); // 80ms delay between each spawn makes it look like a steady stream
+            }
+        }
+
+        function sayYes() {
+            const name = document.getElementById('gName').value.trim();
+            if (!name) return;
+
+            const msgBox = document.getElementById('message');
+            msgBox.innerHTML = 'Congratulations ' + name + '! 🥰<br>I really like you... Will you stay with me forever! ✨';
+            msgBox.style.opacity = 1; // Smooth fade in
+            
+            // Change background to a romantic pink hue
+            document.body.style.background = "linear-gradient(135deg, #ffe6ea, #f8b4c4)";
+
+            triggerEmojis(['💖', '🌹', '✨', '💘']);
+        }
+
+        function sayNo() {
+            const name = document.getElementById('gName').value.trim();
+            if (!name) return;
+
+            const msgBox = document.getElementById('message');
+            msgBox.innerHTML = 'Oh no ' + name + '! 🥺<br>But I want you to know... I will wait for you forever...';
+            msgBox.style.opacity = 1;
+
+            // Change background to a sad blue hue
+            document.body.style.background = "linear-gradient(135deg, #e0e8f5, #b8c6db)";
+
+            triggerEmojis(['🥺', '💔', '🌧️', '🥀']);
+        }
+    </script>
+</body>
+</html>
