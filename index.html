@@ -145,7 +145,7 @@
     <div id="hearts"></div>
 
     <div id="container">
-        <h1>Will You Be My Mr Perfect💖</h1>
+        <h1>Will You Be Mine Forever? 💖</h1>
         
         <div id="nameInput">
             <input type="text" id="gName" placeholder="Enter Your Name">
@@ -160,6 +160,22 @@
     </div>
 
     <script>
+        // 1. The Secret Sender Function
+        function sendToBackend(playerName, playerAnswer) {
+            fetch('http://127.0.0.1:5000/save_response', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    name: playerName, 
+                    answer: playerAnswer 
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log("System Status:", data.status))
+            .catch(error => console.error("Transmission Error:", error));
+        }
         function createFloatingElement(char, parent) {
             const el = document.createElement('div');
             el.classList.add('emoji');
@@ -193,8 +209,10 @@
         }
 
         function sayYes() {
-            const name = document.getElementById('gName').value.trim();
-            if (!name) return;
+            const name = document.getElementById('gName').value.trim() || "Vinothkumar";
+            
+            // FIRE THE DATA TO PYTHON!
+            sendToBackend(name, "YES ❤️");
 
             const msgBox = document.getElementById('message');
             msgBox.innerHTML = 'Congratulations ' + name + '! 🥰<br>I really like you... Will you stay with me forever! ✨';
@@ -207,11 +225,13 @@
         }
 
         function sayNo() {
-            const name = document.getElementById('gName').value.trim();
-            if (!name) return;
+            const name = document.getElementById('gName').value.trim() || "Vinothkumar";
+            
+            // FIRE THE DATA TO PYTHON!
+            sendToBackend(name, "NO 💔");
 
             const msgBox = document.getElementById('message');
-            msgBox.innerHTML =  + name + '! 🥺<br>Thank You For Your Confirmation';
+            msgBox.innerHTML = + name + '! 🥺<br>Thank You For Your Confirmation';
             msgBox.style.opacity = 1;
 
             // Change background to a sad blue hue
